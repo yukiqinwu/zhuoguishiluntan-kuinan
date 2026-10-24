@@ -1,1 +1,1323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>捉鬼师论坛 · 非官方同人演示论坛</title>
+<style>
+  :root{
+    --bg:#0c0c0e; --bg2:#111114; --card:#17171b; --card2:#1d1d22;
+    --line:#2b2b31; --line2:#3a3a42; --text:#e9e9ee; --muted:#9a9aa4;
+    --dim:#6d6d76; --white:#fff; --accent:#d7d7e0;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:
+      radial-gradient(1200px 600px at 70% -10%, #1a1a1f 0%, transparent 60%),
+      radial-gradient(900px 500px at 10% 0%, #151519 0%, transparent 55%),
+      var(--bg);
+    color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;
+    font-size:14px; line-height:1.6;
+    min-height:100vh;
+  }
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;cursor:pointer}
+  img{max-width:100%}
 
+  .topbar{
+    position:sticky; top:0; z-index:50;
+    background:rgba(12,12,14,.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:1160px; margin:0 auto; padding:0 18px;
+    height:58px; display:flex; align-items:center; gap:18px;
+  }
+  .logo{display:flex; align-items:baseline; gap:9px; white-space:nowrap}
+  .logo b{font-size:18px; letter-spacing:2px; color:var(--white); font-weight:700}
+  .logo span{font-size:10px; color:var(--dim); letter-spacing:1px}
+  .nav{display:flex; gap:2px; flex:1; overflow-x:auto}
+  .nav a{
+    padding:7px 11px; border-radius:7px; color:var(--muted);
+    font-size:13px; white-space:nowrap; border:1px solid transparent;
+  }
+  .nav a:hover{color:var(--white); background:var(--card)}
+  .nav a.on{color:var(--white); background:var(--card2); border-color:var(--line)}
+  .top-actions{display:flex; align-items:center; gap:8px}
+  .search-mini{
+    display:flex; align-items:center; gap:6px;
+    background:var(--card); border:1px solid var(--line);
+    border-radius:8px; padding:5px 9px;
+  }
+  .search-mini input{
+    background:transparent; border:0; outline:0; color:var(--text);
+    width:120px; font-size:12px;
+  }
+  .icon-btn{
+    background:var(--card); border:1px solid var(--line); color:var(--muted);
+    border-radius:8px; padding:7px 10px; font-size:12px; position:relative;
+  }
+  .icon-btn:hover{color:var(--white); border-color:var(--line2)}
+  .badge{
+    position:absolute; top:-5px; right:-5px; background:var(--white); color:#111;
+    border-radius:99px; font-size:10px; padding:0 5px; font-weight:700;
+  }
+  .btn{
+    background:var(--card); border:1px solid var(--line); color:var(--text);
+    border-radius:8px; padding:7px 13px; font-size:13px;
+  }
+  .btn:hover{background:var(--card2); border-color:var(--line2)}
+  .btn.primary{background:var(--white); color:#111; border-color:var(--white); font-weight:600}
+  .btn.primary:hover{background:#e6e6ea}
+  .btn.ghost{background:transparent}
+  .btn.sm{padding:4px 9px; font-size:12px; border-radius:7px}
+
+  .wrap{max-width:1160px; margin:0 auto; padding:20px 18px 60px}
+  .layout{display:grid; grid-template-columns:1fr 290px; gap:18px; align-items:start}
+  @media(max-width:900px){ .layout{grid-template-columns:1fr} .side{display:none} }
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px}
+  .card-pad{padding:16px}
+  .section-title{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 16px; border-bottom:1px solid var(--line);
+  }
+  .section-title h3{margin:0; font-size:14px; letter-spacing:1px; color:var(--accent)}
+  .section-title .more{font-size:12px; color:var(--dim)}
+  .section-title .more:hover{color:var(--white)}
+
+  .notice{
+    display:flex; gap:10px; align-items:flex-start;
+    background:linear-gradient(180deg,#1a1a1f,#151518);
+    border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:16px;
+  }
+  .notice .tag{
+    flex:none; font-size:11px; border:1px solid var(--line2); color:var(--accent);
+    border-radius:5px; padding:1px 6px; margin-top:2px;
+  }
+  .notice p{margin:0; color:var(--muted); font-size:12.5px}
+  .notice b{color:var(--text)}
+
+  .post-list{display:flex; flex-direction:column}
+  .post-row{
+    display:flex; gap:12px; padding:14px 16px; border-bottom:1px solid var(--line);
+    cursor:pointer; transition:background .15s;
+  }
+  .post-row:last-child{border-bottom:0}
+  .post-row:hover{background:var(--card2)}
+  .avatar{
+    width:40px; height:40px; border-radius:10px; object-fit:cover; flex:none;
+    background:#232328; border:1px solid var(--line2);
+  }
+  .avatar.sm{width:32px; height:32px; border-radius:9px}
+  .post-main{min-width:0; flex:1}
+  .post-title{
+    display:flex; align-items:center; gap:7px; flex-wrap:wrap;
+    font-size:14.5px; color:var(--text); font-weight:600;
+  }
+  .post-title .pin{font-size:10px; color:#111; background:var(--accent); border-radius:4px; padding:0 5px; font-weight:700}
+  .post-meta{
+    display:flex; gap:10px; flex-wrap:wrap; color:var(--dim);
+    font-size:11.5px; margin-top:5px;
+  }
+  .post-meta .who{color:var(--muted)}
+  .tags{display:flex; gap:6px; flex-wrap:wrap; margin-top:7px}
+  .tag-pill{
+    font-size:11px; color:var(--muted); border:1px solid var(--line);
+    border-radius:99px; padding:1px 8px; background:var(--bg2);
+  }
+  .tag-pill.role{color:var(--accent); border-color:var(--line2)}
+  .post-stats{
+    flex:none; display:flex; flex-direction:column; align-items:flex-end;
+    gap:6px; color:var(--dim); font-size:11.5px; min-width:64px;
+  }
+  .post-stats b{color:var(--muted); font-weight:600}
+
+  .grid-cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:12px}
+  .board-card{
+    background:var(--card); border:1px solid var(--line); border-radius:11px;
+    padding:13px; cursor:pointer; transition:.15s;
+  }
+  .board-card:hover{border-color:var(--line2); background:var(--card2); transform:translateY(-1px)}
+  .board-card b{display:block; color:var(--text); font-size:13.5px}
+  .board-card small{color:var(--dim); font-size:11.5px; display:block; margin-top:4px}
+  
+  .char-card{
+    display:flex; align-items:center; gap:10px; background:var(--card);
+    border:1px solid var(--line); border-radius:11px; padding:11px; cursor:pointer;
+  }
+  .char-card:hover{border-color:var(--line2); background:var(--card2)}
+  .char-card .name{font-size:14px; color:var(--text); font-weight:600}
+
+  .post-head{padding:18px 18px 14px; border-bottom:1px solid var(--line)}
+  .post-head h1{margin:0 0 10px; font-size:20px; line-height:1.4; color:var(--white)}
+  .floor{
+    display:flex; gap:12px; padding:16px 18px; border-bottom:1px solid var(--line);
+  }
+  .floor:last-child{border-bottom:0}
+  .floor .side-user{width:92px; flex:none; text-align:center}
+  .floor .side-user .name{font-size:12.5px; color:var(--text); margin-top:6px; word-break:break-all}
+  .floor .side-user .role-tag{font-size:10px; color:var(--dim); margin-top:2px}
+  .floor .content{flex:1; min-width:0}
+  .floor .content .topline{
+    display:flex; justify-content:space-between; gap:8px; color:var(--dim);
+    font-size:11px; margin-bottom:8px;
+  }
+  .floor .content .text{white-space:pre-wrap; color:var(--text); font-size:14px}
+  .floor .content .text p{margin:0 0 8px}
+  .floor-actions{display:flex; gap:12px; margin-top:10px; color:var(--dim); font-size:11.5px}
+  .floor-actions button{background:none; border:0; color:var(--dim); padding:0; font-size:11.5px}
+  .floor-actions button:hover{color:var(--white)}
+  .floor-actions .liked{color:var(--white)}
+
+  .post-image{
+    margin:10px 0 0; border:1px solid var(--line); border-radius:10px;
+    overflow:hidden; background:#141417; position:relative; min-height:80px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .post-image img{display:block; width:100%; height:auto}
+  .post-image .img-note{display:none; color:var(--dim); font-size:12px; padding:28px 10px}
+  .post-image.missing .img-note{display:block}
+  .post-image.missing img{display:none}
+
+  .collapsed-reply{
+    border:1px dashed var(--line2); border-radius:9px; padding:11px 13px;
+    color:var(--dim); font-size:12.5px; background:var(--bg2);
+  }
+  .collapsed-reply button{margin-left:8px}
+  .violation-tag{
+    display:inline-block; font-size:10px; color:var(--muted);
+    border:1px solid var(--line2); border-radius:4px; padding:0 5px; margin-right:6px;
+  }
+
+  .reply-box{padding:16px 18px}
+  .reply-box textarea{
+    width:100%; min-height:90px; resize:vertical; background:var(--bg2);
+    border:1px solid var(--line); border-radius:9px; color:var(--text);
+    padding:10px 12px; outline:0; font-family:inherit; font-size:13.5px;
+  }
+  .reply-box textarea:focus{border-color:var(--line2)}
+  .reply-box .row{display:flex; justify-content:space-between; align-items:center; margin-top:10px; gap:10px}
+  .hint{color:var(--dim); font-size:11.5px}
+
+  .side .card{margin-bottom:14px}
+  .side-list{padding:6px 16px 12px}
+  .side-item{padding:9px 0; border-bottom:1px solid var(--line); font-size:12.5px}
+  .side-item:last-child{border-bottom:0}
+  .side-item .t{color:var(--text); display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .side-item .m{color:var(--dim); font-size:11px; margin-top:2px}
+  .online-dot{display:inline-block; width:6px; height:6px; border-radius:50%; background:var(--accent); margin-right:6px; vertical-align:middle}
+
+  .modal-mask{
+    position:fixed; inset:0; background:rgba(0,0,0,.75); z-index:100;
+    display:flex; align-items:center; justify-content:center; padding:18px;
+  }
+  .modal{
+    width:100%; max-width:390px; background:var(--card); border:1px solid var(--line2);
+    border-radius:14px; padding:24px 20px;
+  }
+  .modal h2{margin:0 0 16px; font-size:24px; font-weight:800; color:var(--white); text-align:center; letter-spacing:1px}
+  .modal p.sub{margin:0 0 18px; color:var(--muted); font-size:13px; text-align:center}
+  .field{margin-bottom:14px}
+  .field label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
+  .field input[type="text"]{
+    width:100%; background:var(--bg2); border:1px solid var(--line);
+    border-radius:8px; padding:10px 12px; color:var(--text); outline:0; font-size:14px;
+  }
+  .field input[type="text"]:focus{border-color:var(--line2)}
+  .field input[type="file"]{
+    width:100%; font-size:12px; color:var(--muted);
+  }
+  .modal .row{display:flex; gap:8px; margin-top:18px}
+  .modal .row .btn{flex:1; padding:10px}
+
+  .user-chip{display:flex; align-items:center; gap:8px; cursor:pointer}
+  .user-chip .name{font-size:12.5px; color:var(--text); max-width:90px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+
+  .empty{padding:34px 18px; text-align:center; color:var(--dim); font-size:13px}
+
+  .footer{
+    max-width:1160px; margin:0 auto; padding:26px 18px 40px;
+    border-top:1px solid var(--line); color:var(--dim); font-size:11.5px; line-height:1.9;
+  }
+  .footer b{color:var(--muted)}
+  .footer .reset{color:var(--dim); text-decoration:underline; background:none; border:0; font-size:11.5px; padding:0}
+
+  .notif-item{display:flex; gap:10px; padding:13px 16px; border-bottom:1px solid var(--line)}
+  .notif-item:last-child{border-bottom:0}
+  .notif-item.unread{background:var(--card2)}
+  .notif-item .dot{width:7px; height:7px; border-radius:50%; background:var(--accent); margin-top:8px; flex:none}
+  .notif-item .txt{font-size:12.5px; color:var(--text)}
+  .notif-item .tm{font-size:11px; color:var(--dim); margin-top:3px}
+
+  .profile-head{display:flex; gap:14px; align-items:center; padding:18px}
+  .profile-head .avatar{width:56px; height:56px; border-radius:14px}
+  .stat-row{display:flex; gap:18px; margin-top:6px; color:var(--dim); font-size:12px}
+  .stat-row b{color:var(--text)}
+
+  .breadcrumb{color:var(--dim); font-size:12px; margin-bottom:12px}
+  .breadcrumb span{cursor:pointer}
+  .breadcrumb span:hover{color:var(--white)}
+
+  @media(max-width:600px){
+    .topbar-inner{height:auto; padding:10px 12px; flex-wrap:wrap; gap:10px}
+    .nav{order:3; width:100%; flex:1 1 100%}
+    .search-mini input{width:80px}
+    .post-stats{display:none}
+    .floor .side-user{width:64px}
+    .floor .side-user .avatar{width:36px; height:36px}
+  }
+    </style>
+  </head>
+<body>
+<div id="app"></div>
+<div class="footer" id="footer"></div>
+
+<script>
+const DEFAULT_NPC_AVATAR = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80">
+    <rect width="80" height="80" fill="#232328"/>
+    <circle cx="40" cy="30" r="13" fill="#6d6d76"/>
+    <path d="M15 73c2-17 13-25 25-25s23 8 25 25" fill="#6d6d76"/>
+  </svg>`
+);
+
+// 本地根目录读取图片（单 .png 后缀）
+const CHARACTERS = {
+  luo:  { name:"双面鬼", avatar:"./luo-yunying-avatar.png" },
+  qin:  { name:"捉鬼师秦大侠", avatar:"./qin-wu-avatar.png" }, 
+  hu:   { name:"蛇玉",   avatar:"./she-yu-avatar.png" },
+  tong: { name:"佟装水", avatar:"./tong-xiao-yu-avatar.png" },
+  qing: { name:"青龙",   avatar:"./qing-long-avatar.png" },
+  bai:  { name:"白虎",   avatar:"./bai-hu-avatar.png" },
+  zhu:  { name:"朱雀",   avatar:"./zhu-que-avatar.png" },
+  xuan: { name:"玄武",   avatar:"./xuan-wu-avatar.png" }
+};
+
+const NPCS = {
+  fu:    { name:"符纸收藏家" },
+  hong:  { name:"红线不缠我" },
+  bi:    { name:"笔仙退散" },
+  ye:    { name:"夜巡小队长" },
+  du:    { name:"捉鬼师秦大侠的读档记录" },
+  luoFan:{ name:"双面鬼毒舌翻译机" },
+  map:   { name:"大地图迷路中" },
+  fish:  { name:"水区摸鱼怪" }
+};
+
+const BOARDS = [
+  { id:"general",  name:"捉鬼杂谈",     desc:"新人求助 · 经验交流 · 避坑" },
+  { id:"characters",name:"角色专区",    desc:"八位角色相关的捉鬼讨论" },
+  { id:"events",   name:"灵异事件记录", desc:"笔仙复盘 · 巡街记录 · 异常现象" },
+  { id:"practice", name:"捉鬼实务",     desc:"符咒 · 朱砂 · 道具 · 大地图" },
+  { id:"notes",    name:"捉鬼手记",     desc:"符样 · 手记 · 脑洞记录" },
+  { id:"lounge",   name:"捉鬼师摸鱼区", desc:"任务吐槽 · 装备保养 · 巡街闲聊" }
+];
+
+// 帖子数据：18条角色帖 + 8条NPC日常帖 = 26条
+const POSTS = [
+  // 1. 【特殊帖】骆云影发布，位于第一
+  {
+    id:1, board:"characters", character:"luo", title:"鲜血艺术",
+    author:"luo", authorType:"character", tags:["双面鬼","图片帖","演示"], time:"2026-10-19 01:12", likes:33, views:876,
+    image:"./luo-yunying-post-blood-art.png", content:"新作品。别问，问就是颜料。",
+    replies:[
+      { author:"bi", authorType:"npc", content:"死娘炮，你照片里拍的是不是XXX大街？老子就在对面吃烧烤，你有本事过来，咱俩比划比划。", collapsed:true, violation:true, likes:2 },
+      { author:"luo", authorType:"character", content:"", image:"./luo-yunying-reply-image.png", likes:19 }
+    ]
+  },
+  // 2. 秦大侠中二求助
+  {
+    id:2, board:"characters", character:"qin", title:"【求助】旧城区这墙是不是有怨气？@双面鬼 大佬救命！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","求助","中二"], time:"2026-10-19 00:20", likes:27, views:640,
+    content:"各位同修好！今晚在旧城区巡夜，符纸贴上去直接掉下来了！朱砂没问题，是不是这墙里封印了什么千年厉鬼？我是不是要觉醒体内的捉鬼血脉了？！@双面鬼 大佬求指路！！",
+    replies:[
+      { author:"luo", authorType:"character", content:"觉醒你个头。旧城区那几条巷子湿气重，墙皮返潮，符纸贴上去不脱才怪。朱砂换干性的，贴之前把墙面烘一遍。真有问题，白天再来。", likes:22 },
+      { author:"qing", authorType:"character", content:"烘个墙也能脑补出八十集连续剧，不去写小说可惜了。", likes:15 },
+      { author:"qin", authorType:"character", content:"谢谢大佬指点！！我这就去烘墙！大佬骂我了，大佬心里有我！", likes:8 }
+    ]
+  },
+  // 3. 蛇玉狂热追星
+  {
+    id:3, board:"characters", character:"hu", title:"只有我觉得双面鬼大佬毒舌的时候特别帅吗？",
+    author:"hu", authorType:"character", tags:["蛇玉","双面鬼","彩虹屁"], time:"2026-10-18 23:10", likes:45, views:512,
+    content:"今天在论坛看到大佬骂人，那眼神，那语气，绝了！我已经录下来了，准备每天循环播放。大佬康康我！",
+    replies:[
+      { author:"luo", authorType:"character", content:"无聊。", likes:30 },
+      { author:"hu", authorType:"character", content:"啊啊啊啊大佬回我了！！！虽然只有两个字，但我截屏了！", likes:12 }
+    ]
+  },
+  // 4. 白虎要礼物
+  {
+    id:4, board:"characters", character:"bai", title:"今晚夜巡老粮站，直播间兄弟们走一波！",
+    author:"bai", authorType:"character", tags:["白虎","直播","求礼物"], time:"2026-10-18 19:00", likes:12, views:320,
+    content:"家人们，今晚难度有点大。为了给大家直播抓个猛鬼，我先穿个护甲。有钱的捧个钱场，送个‘跑车’‘火箭’，没钱的点点关注。刷礼物的今晚我替他多贴两张符！",
+    replies:[
+      { author:"xuan", authorType:"character", content:"注意安全，别为了流量作死。论坛禁止引流乞讨，下不为例。", likes:25 },
+      { author:"qing", authorType:"character", content:"拿命换礼物，阎王爷看了都得给你点个赞。", likes:18 }
+    ]
+  },
+  // 5. 玄武稳局
+  {
+    id:5, board:"characters", character:"xuan", title:"整理了一份基础守阵口诀，新人必看",
+    author:"xuan", authorType:"character", tags:["玄武","守阵","口诀"], time:"2026-10-18 14:00", likes:34, views:800,
+    content:"最近新人多，遇到怪事容易慌。这份口诀大家先背熟：遇事不要慌，先看符纸后看墙。风大压边雨带伞，别见黑影就喊娘。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"受教了，队长稳重！", likes:5 },
+      { author:"qin", authorType:"character", content:"背熟了！我是不是可以出师了！", likes:3 }
+    ]
+  },
+  // 6. 青龙阴阳怪气
+  {
+    id:6, board:"characters", character:"qing", title:"某些人烘个墙也能脑补出一部连续剧",
+    author:"qing", authorType:"character", tags:["青龙","嘲讽"], time:"2026-10-18 11:00", likes:20, views:300,
+    content:"建议遇到灵异事件先挂个脑科。脑子里的水倒干净了，符纸可能就贴上了。",
+    replies:[
+      { author:"qin", authorType:"character", content:"青龙哥，你是在说我吗？难道不是你嫉妒我被大佬骂？", likes:8 },
+      { author:"qing", authorType:"character", content:"嫉妒你？嫉妒你脑干缺失吗？", likes:12 }
+    ]
+  },
+  // 7. 佟装水日常
+  {
+    id:7, board:"characters", character:"tong", title:"新手第一次画符，手抖怎么办？",
+    author:"tong", authorType:"character", tags:["佟装水","画符","新人"], time:"2026-10-18 10:30", likes:15, views:290,
+    content:"画到一半手抖，线条断了。师傅说断了就得重画。有没有稳手的办法？",
+    replies:[
+      { author:"fu", authorType:"npc", content:"先练直线，别急着画整张。手腕贴桌，别悬空。", likes:5 },
+      { author:"xuan", authorType:"character", content:"慢慢来。断了就重画，别硬接。手稳是练出来的。", likes:13 }
+    ]
+  },
+  // 8. 秦大侠中二发作
+  {
+    id:8, board:"characters", character:"qin", title:"关于我被大佬骂了这件事，我宣布这是无上的荣耀！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","中二","追星"], time:"2026-10-17 21:00", likes:19, views:450,
+    content:"你们懂什么！这叫强者的指点！大佬骂我，说明他关注我！我要把今天的对话打印下来贴在床头！",
+    replies:[
+      { author:"luo", authorType:"character", content:"滚。", likes:30 },
+      { author:"hu", authorType:"character", content:"好羡慕你，大佬居然回了你这么多字！", likes:10 }
+    ]
+  },
+  // 9. 蛇玉同人图
+  {
+    id:9, board:"characters", character:"hu", title:"【同人】偷偷画了一张双面鬼大佬的抓鬼速写",
+    author:"hu", authorType:"character", tags:["蛇玉","同人图","双面鬼"], time:"2026-10-17 19:20", likes:50, views:600,
+    content:"画技不精，但真的尽力了！大佬穿风衣的样子太帅了，没画出来的部位大家自行脑补！",
+    replies:[
+      { author:"luoFan", authorType:"npc", content:"画得太好了！嘶溜！", likes:8 },
+      { author:"luo", authorType:"character", content:"把那张图删了。还有，你再偷拍我试试。", likes:22 }
+    ]
+  },
+  // 10. 白虎推销
+  {
+    id:10, board:"characters", character:"bai", title:"家人们，昨晚直播效果拉满！",
+    author:"bai", authorType:"character", tags:["白虎","直播"], time:"2026-10-17 15:00", likes:11, views:200,
+    content:"虽然没抓到鬼，但家人们礼物没停过！今晚继续，刷个跑车我给大家表演一个胸口碎大石！",
+    replies:[
+      { author:"xuan", authorType:"character", content:"再多发一条广告，禁言套餐了解一下。", likes:28 }
+    ]
+  },
+  // 11. 双面鬼嫌烦
+  {
+    id:11, board:"characters", character:"luo", title:"别什么破烂事都往我头上推",
+    author:"luo", authorType:"character", tags:["双面鬼","吐槽"], time:"2026-10-16 22:10", likes:25, views:450,
+    content:"再有人发求助帖艾特我，先看看自己符有没有贴反。我不是你们的保姆。",
+    replies:[
+      { author:"qin", authorType:"character", content:"收到大佬！我立刻去检查符纸正反！", likes:6 },
+      { author:"hu", authorType:"character", content:"大佬连生气都这么有个性。", likes:14 }
+    ]
+  },
+  // 12. 青龙阴阳白虎
+  {
+    id:12, board:"characters", character:"qing", title:"直播抓鬼？我看是鬼抓你",
+    author:"qing", authorType:"character", tags:["青龙","白虎","嘲讽"], time:"2026-10-16 20:00", likes:22, views:310,
+    content:"建议白虎改行做搞笑主播。抓鬼？你连墙角的耗子都抓不到，还指望抓鬼。",
+    replies:[
+      { author:"bai", authorType:"character", content:"你懂什么，这叫节目效果！", likes:4 }
+    ]
+  },
+  // 13. 玄武发布任务提醒
+  {
+    id:13, board:"characters", character:"xuan", title:"关于近期旧城区频繁出没的异常",
+    author:"xuan", authorType:"character", tags:["玄武","旧城区","稳定"], time:"2026-10-16 18:00", likes:30, views:520,
+    content:"大家不用慌，已经排查过了，是地气波动。按部就班巡逻即可，不要单独行动，不要过度解读。",
+    replies:[
+      { author:"map", authorType:"npc", content:"有队长这句话我就放心了。", likes:7 }
+    ]
+  },
+  // 14. 佟装水材料
+  {
+    id:14, board:"characters", character:"tong", title:"这种纸是不是受潮了？",
+    author:"tong", authorType:"character", tags:["佟装水","材料"], time:"2026-10-15 15:40", likes:6, views:177,
+    content:"感觉颜色不对，摸起来也有点软。",
+    replies:[
+      { author:"fu", authorType:"npc", content:"受潮了，阴干一下还能用，画普通的符没问题。", likes:4 }
+    ]
+  },
+  // 15. 秦大侠问属性
+  {
+    id:15, board:"characters", character:"qin", title:"求助，属性到底怎么点啊！我是不是该全点力量？",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","属性","求助"], time:"2026-10-15 10:20", likes:15, views:500,
+    content:"体感属性影响判定，好感度影响分支。我想做一个能一拳打爆厉鬼的猛男，有什么建议吗？",
+    replies:[
+      { author:"xuan", authorType:"character", content:"先点智力。连最基础的面板说明都不看，还想打爆厉鬼？", likes:35 }
+    ]
+  },
+  // 16. 蛇玉收集语录
+  {
+    id:16, board:"characters", character:"hu", title:"收集大佬语录第一百零一天",
+    author:"hu", authorType:"character", tags:["蛇玉","语录"], time:"2026-10-14 19:00", likes:40, views:420,
+    content:"“滚。”——双面鬼。短短一个字，包含了三分薄凉、三分讥笑和四分漫不经心！",
+    replies:[
+      { author:"qing", authorType:"character", content:"没救了，建议火化。", likes:20 }
+    ]
+  },
+  // 17. 双面鬼警告
+  {
+    id:17, board:"characters", character:"luo", title:"你们再这么水帖，我就把论坛关了",
+    author:"luo", authorType:"character", tags:["双面鬼","警告"], time:"2026-10-13 22:00", likes:28, views:600,
+    content:"每天打开全是些没营养的废话。安静点。",
+    replies:[
+      { author:"hu", authorType:"character", content:"大佬息怒！我不发了！", likes:8 }
+    ]
+  },
+  // 18. 白虎求刷礼物
+  {
+    id:18, board:"characters", character:"bai", title:"兄弟们，这个月KPI差一点，求刷点小礼物",
+    author:"bai", authorType:"character", tags:["白虎","求礼物"], time:"2026-10-12 20:00", likes:8, views:150,
+    content:"不为别的，就为了今晚能买个好点的护膝。大家懂的都懂。",
+    replies:[
+      { author:"qing", authorType:"character", content:"水滴筹链接发一下，我给你捐五毛。", likes:15 }
+    ]
+  },
+
+  // --- NPC 日常帖 (8篇) ---
+  {
+    id:19, board:"general", title:"新人报到：第一次巡夜需要准备什么？",
+    author:"map", authorType:"npc", tags:["新人","巡夜"], time:"2026-10-18 21:10", likes:16, views:322,
+    content:"刚入行，今晚第一次跟队巡夜。除了符纸和朱砂，还需要带什么？手电算不算违规？在线等。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"手电可以，别用强光直照墙角。带一小包干糯米，湿气重的地方撒一点。", likes:8 }
+    ]
+  },
+  {
+    id:20, board:"general", title:"旧城区夜巡避坑记录（持续更新）",
+    author:"ye", authorType:"npc", tags:["旧城区","避坑","巡夜"], time:"2026-10-17 23:05", likes:21, views:410,
+    content:"旧城区三巷、五巷、老粮站后墙，这三处湿气最重，符纸基本撑不过半刻。建议白天踩点，晚上结伴。",
+    replies:[
+      { author:"map", authorType:"npc", content:"三巷我上周也去了，确实。墙皮一碰就掉。", likes:3 }
+    ]
+  },
+  {
+    id:21, board:"events", title:"笔仙事件复盘：同学聚会那晚到底发生了什么",
+    author:"du", authorType:"npc", tags:["笔仙","复盘","时间线"], time:"2026-10-19 02:00", likes:26, views:690,
+    content:"按目前能确认的信息整理：聚会、笔仙、送不走、缠上。中间有几个时间点对不上，欢迎补充。",
+    replies:[
+      { author:"bi", authorType:"npc", content:"所以同学聚会真的不要乱玩笔仙。", likes:5 }
+    ]
+  },
+  {
+    id:22, board:"events", title:"半夜听到楼道有人念咒，要不要出去看？",
+    author:"bi", authorType:"npc", tags:["楼道","求助"], time:"2026-10-17 01:30", likes:10, views:255,
+    content:"声音很清楚，但猫眼外面没人。念的内容听不清，像在数数。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"这种情况先别出去，记下来报队里。", likes:4 }
+    ]
+  },
+  {
+    id:23, board:"practice", title:"符纸贴法图解（新手向）",
+    author:"fu", authorType:"npc", tags:["符纸","图解","新手"], time:"2026-10-18 15:00", likes:22, views:511,
+    content:"朱砂面朝外，四角压实，中间留一点空。返潮墙面先烘。别用透明胶。",
+    replies:[
+      { author:"map", authorType:"npc", content:"透明胶这个我中枪了。", likes:3 }
+    ]
+  },
+  {
+    id:24, board:"practice", title:"大地图探索怎么走不迷路",
+    author:"map", authorType:"npc", tags:["大地图","探索"], time:"2026-10-16 20:00", likes:12, views:288,
+    content:"我每次都在河堤那边绕圈。有没有固定走法？",
+    replies:[
+      { author:"ye", authorType:"npc", content:"带粉笔，拐弯画一道。", likes:4 }
+    ]
+  },
+  {
+    id:25, board:"notes", title:"手绘符样分享：镇宅、驱邪、安神",
+    author:"fu", authorType:"npc", tags:["符样","手绘","分享"], time:"2026-10-18 11:00", likes:24, views:455,
+    content:"三张常用的，线条尽量画清楚。新手先临摹，别自己改。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"画得很标准，感谢分享。", likes:6 }
+    ]
+  },
+  {
+    id:26, board:"lounge", title:"巡夜回来，鞋底全是泥，先摸会儿鱼",
+    author:"fish", authorType:"npc", tags:["摸鱼","巡夜"], time:"2026-10-19 03:10", likes:9, views:199,
+    content:"旧城区那泥，洗了半小时。有没有同款。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"雨靴+1，别穿好鞋去旧城区。", likes:5 }
+    ]
+  }
+];
+
+const LS = {
+  user:"ghost_current_user",
+  likes:"ghost_likes",
+  favs:"ghost_favs",
+  replies:"ghost_user_replies",
+  notifs:"ghost_notifs"
+};
+
+const state = {
+  view:"home",
+  param:null,
+  searchInput:"",
+  searchKeyword:"",
+  replyDraft:"",
+  user:null,
+  likes:{},
+  favs:{},
+  userReplies:{},
+  notifications:[],
+  collapsed:{},
+  showLogin:false,
+  loginError:""
+};
+  function loadJSON(key, fallback){
+  try{ const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch(e){ return fallback; }
+}
+function saveJSON(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+function loadState(){
+  state.user = loadJSON(LS.user, null);
+  state.likes = loadJSON(LS.likes, {});
+  state.favs = loadJSON(LS.favs, {});
+  state.userReplies = loadJSON(LS.replies, {});
+  state.notifications = loadJSON(LS.notifs, [
+    { id:1, text:"欢迎来到捉鬼师论坛！", time:"刚刚", read:false }
+  ]);
+  
+  // 首次进入自动弹出登录框
+  if(!state.user){
+    state.showLogin = true;
+  }
+}
+loadState();
+
+function persistUser(){ saveJSON(LS.user, state.user); }
+function persistLikes(){ saveJSON(LS.likes, state.likes); }
+function persistFavs(){ saveJSON(LS.favs, state.favs); }
+function persistReplies(){ saveJSON(LS.replies, state.userReplies); }
+function persistNotifs(){ saveJSON(LS.notifs, state.notifications); }
+
+function esc(s){
+  return String(s == null ? "" : s).replace(/[&<>"']/g, m => (
+    { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[m]
+  ));
+}
+function person(key, type){
+  if(type === "character"){
+    const c = CHARACTERS[key] || { name:"未知角色", avatar:DEFAULT_NPC_AVATAR, title:"" };
+    return { name:c.name, avatar:c.avatar, title:c.title, type:"character" };
+  }
+  if(type === "user"){
+    return { name: state.user ? state.user.nickname : "访客", avatar: state.user && state.user.avatar ? state.user.avatar : DEFAULT_NPC_AVATAR, type:"user" };
+  }
+  const n = NPCS[key] || { name:"匿名坛友" };
+  return { name:n.name, avatar:DEFAULT_NPC_AVATAR, title:"普通坛友", type:"npc" };
+}
+function postById(id){ return POSTS.find(p => p.id === Number(id)); }
+function boardById(id){ return BOARDS.find(b => b.id === id); }
+function unreadCount(){ return state.notifications.filter(n => !n.read).length; }
+function isLoggedIn(){ return !!state.user; }
+
+window.imgFallback = function(el, type){
+  if(type === "avatar"){
+    el.onerror = null;
+    el.src = DEFAULT_NPC_AVATAR;
+  }else{
+    const box = el.parentElement;
+    if(box) box.classList.add("missing");
+    el.style.display = "none";
+  }
+};
+
+function avatarHTML(p, cls){
+  const c = cls || "avatar";
+  if(p.type === "character" || p.type === "user"){
+    return `<img class="${c}" src="${esc(p.avatar)}" alt="${esc(p.name)}" onerror="imgFallback(this,'avatar')">`;
+  }
+  return `<img class="${c}" src="${DEFAULT_NPC_AVATAR}" alt="${esc(p.name)}">`;
+}
+
+function postImageHTML(src){
+  return `<div class="post-image">
+    <img src="${esc(src)}" alt="帖子配图" onerror="imgFallback(this,'post')">
+    <span class="img-note">图片占位：${esc(src)}</span>
+  </div>`;
+}
+
+function renderTopbar(){
+  const unread = unreadCount();
+  const navItems = [
+    ["home","首页"], ["boards","板块"], ["characters","角色专区"],
+    ["events","事件记录"], ["practice","捉鬼实务"], ["notes","手记"], ["lounge","摸鱼区"]
+  ];
+  let userArea = "";
+  if(isLoggedIn()){
+    userArea = `
+      <div class="user-chip" onclick="go('profile')">
+        <img class="avatar sm" src="${esc(state.user.avatar)}" alt="" onerror="imgFallback(this,'avatar')">
+        <span class="name">${esc(state.user.nickname)}</span>
+      </div>
+      <button class="icon-btn" onclick="logout()">退出</button>
+    `;
+  }else{
+    userArea = `<button class="btn primary" onclick="openLogin()">登录</button>`;
+  }
+  return `
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo" onclick="go('home')" style="cursor:pointer">
+        <b>捉鬼师论坛</b><span>非官方同人演示</span>
+      </div>
+      <div class="nav">
+        ${navItems.map(([id,label]) => `
+          <a class="${state.view === id ? "on" : ""}" onclick="go('${id}')">${label}</a>
+        `).join("")}
+      </div>
+      <div class="top-actions">
+        <div class="search-mini">
+          <input id="searchInput" placeholder="搜索帖子/标签" value="${esc(state.searchInput)}"
+            oninput="state.searchInput=this.value"
+            onkeydown="if(event.key==='Enter') doSearch()">
+          <button class="btn sm ghost" onclick="doSearch()">搜</button>
+        </div>
+        <button class="icon-btn" onclick="go('notifications')">
+          通知${unread ? `<span class="badge">${unread}</span>` : ""}
+        </button>
+        ${userArea}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPostRow(p){
+  const author = person(p.author, p.authorType);
+  const board = boardById(p.board);
+  const replyCount = p.replies.length + ((state.userReplies[p.id] || []).length);
+  const liked = !!state.likes[p.id];
+  return `
+  <div class="post-row" onclick="openPost(${p.id})">
+    ${avatarHTML(author)}
+    <div class="post-main">
+      <div class="post-title">
+        ${p.id === 1 || p.id === 2 ? `<span class="pin">演示</span>` : ""}
+        ${esc(p.title)}
+      </div>
+      <div class="post-meta">
+        <span class="who">${esc(author.name)}</span>
+        <span>${esc(board ? board.name : "")}</span>
+        <span>${esc(p.time)}</span>
+      </div>
+      <div class="tags">
+        ${p.tags.map(t => `<span class="tag-pill ${p.character ? "role" : ""}">#${esc(t)}</span>`).join("")}
+      </div>
+    </div>
+    <div class="post-stats">
+      <span><b>${p.likes + (liked ? 1 : 0)}</b> 赞</span>
+      <span><b>${replyCount}</b> 回复</span>
+      <span>${p.views} 浏览</span>
+    </div>
+  </div>`;
+}
+
+function renderPostList(list){
+  if(!list.length) return `<div class="empty">这里还没有帖子。演示数据里暂时没有匹配内容。</div>`;
+  return `<div class="post-list">${list.map(renderPostRow).join("")}</div>`;
+}
+
+function renderHome(){
+  const hot = [...POSTS].sort((a,b) => (b.likes + b.views/100) - (a.likes + a.views/100)).slice(0,5);
+  const latest = [...POSTS].sort((a,b) => b.id - a.id).slice(0,5);
+  const onlineNpcs = Object.keys(NPCS).slice(0,5);
+  const side = `
+    <div class="side">
+      <div class="card">
+        <div class="section-title"><h3>在线坛友</h3></div>
+        <div class="side-list">
+          ${onlineNpcs.map(k => `<div class="side-item"><span class="online-dot"></span>${esc(NPCS[k].name)}</div>`).join("")}
+          <div class="side-item" style="color:var(--dim);font-size:11px">在线状态为演示模拟</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>热门标签</h3></div>
+        <div class="side-list">
+          <div class="tags" style="padding:4px 0">
+            ${["符纸","朱砂","巡夜","旧城区","笔仙","时间线","大地图","火符","守阵"].map(t =>
+              `<span class="tag-pill" style="cursor:pointer" onclick="searchTag('${esc(t)}')">#${esc(t)}</span>`
+            ).join("")}
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-title"><h3>演示说明</h3></div>
+        <div class="card-pad" style="color:var(--dim);font-size:12px;line-height:1.8">
+          本论坛为《捉鬼师后日谈》非官方同人演示页面。角色号为演示 NPC，不代表官方。所有数据保存在本地浏览器。
+        </div>
+      </div>
+    </div>`;
+
+  return `
+  <div class="wrap">
+    <div class="notice">
+      <span class="tag">公告</span>
+      <p><b>捉鬼师论坛</b> · 非官方同人演示论坛。所有角色、NPC、帖子、回复均围绕捉鬼相关话题。角色号为演示 NPC，不伪造官方公告。演示数据保存在本地，清缓存会丢。</p>
+    </div>
+    <div class="layout">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-title"><h3>热门帖</h3><span class="more" onclick="go('boards')">全部板块</span></div>
+          ${renderPostList(hot)}
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-title"><h3>最新回复</h3></div>
+          ${renderPostList(latest)}
+        </div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="section-title"><h3>角色专区</h3></div>
+          <div class="card-pad grid-cards">
+            ${Object.keys(CHARACTERS).map(k => {
+              const c = CHARACTERS[k];
+              return `<div class="char-card" onclick="openCharacter('${k}')">
+                ${avatarHTML(person(k,"character"))}
+                <div><div class="name">${esc(c.name)}</div></div>
+              </div>`;
+            }).join("")}
+          </div>
+        </div>
+        <div class="card">
+          <div class="section-title"><h3>板块</h3></div>
+          <div class="card-pad grid-cards">
+            ${BOARDS.map(b => `<div class="board-card" onclick="openBoard('${b.id}')">
+              <b>${esc(b.name)}</b><small>${esc(b.desc)}</small>
+            </div>`).join("")}
+          </div>
+        </div>
+      </div>
+      ${side}
+    </div>
+  </div>`;
+}
+
+function renderBoards(){
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / 板块</div>
+    <div class="card">
+      <div class="section-title"><h3>全部板块</h3></div>
+      <div class="card-pad grid-cards">
+        ${BOARDS.map(b => {
+          const count = POSTS.filter(p => p.board === b.id).length;
+          return `<div class="board-card" onclick="openBoard('${b.id}')">
+            <b>${esc(b.name)}</b><small>${esc(b.desc)}</small>
+            <small style="margin-top:8px;color:var(--dim)">${count} 帖</small>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderBoardPage(boardId){
+  const board = boardById(boardId);
+  const list = POSTS.filter(p => p.board === boardId);
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / <span onclick="go('boards')">板块</span> / ${esc(board ? board.name : "")}</div>
+    <div class="card">
+      <div class="section-title">
+        <h3>${esc(board ? board.name : "板块")}</h3>
+        <span class="more">${esc(board ? board.desc : "")}</span>
+      </div>
+      ${renderPostList(list)}
+    </div>
+  </div>`;
+}
+
+function renderFloorReply(p, r, floor){
+  const author = person(r.author, r.authorType);
+  const key = p.id + "-" + floor;
+  const collapsed = r.collapsed && !state.collapsed[key];
+
+  if(collapsed){
+    return `
+    <div class="floor">
+      <div class="side-user">
+        ${avatarHTML(author, "avatar sm")}
+        <div class="name">${esc(author.name)}</div>
+      </div>
+      <div class="content">
+        <div class="topline"><span>${floor} 楼</span><span>该回复含攻击性用语</span></div>
+        <div class="collapsed-reply">
+          演示违规言论，已默认折叠。
+          <button class="btn sm" onclick="toggleCollapse('${key}')">点击展开</button>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  return `
+  <div class="floor">
+    <div class="side-user">
+      ${avatarHTML(author, "avatar sm")}
+      <div class="name">${esc(author.name)}</div>
+      <div class="role-tag">${author.type === "character" ? "演示角色号" : (author.type === "user" ? "论坛用户" : "普通坛友")}</div>
+    </div>
+    <div class="content">
+      <div class="topline">
+        <span>${floor} 楼</span>
+        <span>${esc(p.time)}</span>
+      </div>
+      ${r.violation ? `<span class="violation-tag">演示违规言论</span>` : ""}
+      ${r.content ? `<div class="text">${esc(r.content)}</div>` : ""}
+      ${r.image ? postImageHTML(r.image) : ""}
+      <div class="floor-actions">
+        <span>赞 ${r.likes || 0}</span>
+        <button onclick="alert('演示论坛：回复点赞暂未开放')">回复</button>
+        ${r.violation ? `<button onclick="alert('演示：已模拟举报，等待版主处理')">举报</button>` : ""}
+        ${r.collapsed && state.collapsed[key] ? `<button onclick="toggleCollapse('${key}')">收起</button>` : ""}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderPostPage(id){
+  const p = postById(id);
+  if(!p) return `<div class="wrap"><div class="card empty">帖子不存在。</div></div>`;
+  const author = person(p.author, p.authorType);
+  const liked = !!state.likes[p.id];
+  const faved = !!state.favs[p.id];
+  const extraReplies = state.userReplies[p.id] || [];
+  const board = boardById(p.board);
+
+  const replyInput = isLoggedIn()
+    ? `<div class="reply-box">
+        <textarea placeholder="回复这个话题（演示：内容保存在本地）" oninput="state.replyDraft=this.value">${esc(state.replyDraft)}</textarea>
+        <div class="row">
+          <span class="hint">演示论坛，请勿发布真实个人信息。</span>
+          <button class="btn primary" onclick="submitReply(${p.id})">发布回复</button>
+        </div>
+      </div>`
+    : `<div class="reply-box">
+        <div class="collapsed-reply" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+          <span>登录后才能回复。</span>
+          <button class="btn primary sm" onclick="openLogin()">去登录</button>
+        </div>
+      </div>`;
+
+  return `
+  <div class="wrap">
+    <div class="breadcrumb">
+      <span onclick="go('home')">首页</span> /
+      <span onclick="openBoard('${p.board}')">${esc(board ? board.name : "")}</span> /
+      帖子
+    </div>
+    <div class="card">
+      <div class="post-head">
+        <h1>${esc(p.title)}</h1>
+        <div class="tags">
+          ${p.tags.map(t => `<span class="tag-pill ${p.character ? "role" : ""}">#${esc(t)}</span>`).join("")}
+        </div>
+        <div class="floor-actions" style="margin-top:12px">
+          <button class="${liked ? "liked" : ""}" onclick="toggleLike(${p.id})">${liked ? "已赞" : "赞"} ${p.likes + (liked ? 1 : 0)}</button>
+          <button class="${faved ? "liked" : ""}" onclick="toggleFav(${p.id})">${faved ? "已收藏" : "收藏"}</button>
+          <span>${p.views} 浏览</span>
+          <span>${p.time}</span>
+        </div>
+      </div>
+
+      <div class="floor">
+        <div class="side-user">
+          ${avatarHTML(author)}
+          <div class="name">${esc(author.name)}</div>
+          <div class="role-tag">${author.type === "character" ? "演示角色号" : "普通坛友"}</div>
+        </div>
+        <div class="content">
+          <div class="topline"><span>1 楼 · 楼主</span><span>${esc(p.time)}</span></div>
+          <div class="text">${esc(p.content)}</div>
+          ${p.image ? postImageHTML(p.image) : ""}
+        </div>
+      </div>
+
+      ${p.replies.map((r,i) => renderFloorReply(p, r, i + 2)).join("")}
+
+      ${extraReplies.map((r,i) => renderFloorReply(p, r, p.replies.length + i + 2)).join("")}
+
+      ${replyInput}
+    </div>
+  </div>`;
+}
+
+function renderCharactersPage(){
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / 角色专区</div>
+    <div class="card">
+      <div class="section-title"><h3>八位角色 · 捉鬼相关讨论</h3></div>
+      <div class="card-pad grid-cards">
+        ${Object.keys(CHARACTERS).map(k => {
+          const c = CHARACTERS[k];
+          return `<div class="char-card" onclick="openCharacter('${k}')">
+            ${avatarHTML(person(k,"character"))}
+            <div>
+              <div class="name">${esc(c.name)}</div>
+            </div>
+          </div>`;
+        }).join("")}
+      </div>
+    </div>
+  </div>`;
+}
+
+function renderCharacterPage(key){
+  const c = CHARACTERS[key];
+  if(!c) return `<div class="wrap"><div class="card empty">角色不存在。</div></div>`;
+  const list = POSTS.filter(p => p.character === key);
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / <span onclick="go('characters')">角色专区</span> / ${esc(c.name)}</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="profile-head">
+        ${avatarHTML(person(key,"character"), "avatar")}
+        <div>
+          <div style="font-size:16px;color:var(--white);font-weight:600">${esc(c.name)}</div>
+          <div style="color:var(--dim);font-size:12px;margin-top:2px">演示角色号</div>
+          <div class="stat-row"><span><b>${list.length}</b> 相关帖</span><span>角色内容均为捉鬼相关</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-title"><h3>${esc(c.name)} · 相关帖</h3></div>
+      ${renderPostList(list)}
+    </div>
+  </div>`;
+}
+
+function renderSearchPage(){
+  const kw = state.searchKeyword.trim();
+  let list = POSTS;
+  if(kw){
+    const low = kw.toLowerCase();
+    list = POSTS.filter(p =>
+      p.title.toLowerCase().includes(low) ||
+      p.content.toLowerCase().includes(low) ||
+      p.tags.some(t => t.toLowerCase().includes(low)) ||
+      person(p.author, p.authorType).name.toLowerCase().includes(low)
+    );
+  }
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / 搜索</div>
+    <div class="card">
+      <div class="section-title"><h3>${kw ? "搜索：" + esc(kw) : "全部帖子"}</h3><span class="more">${list.length} 条结果</span></div>
+      ${renderPostList(list)}
+    </div>
+  </div>`;
+}
+
+function renderNotificationsPage(){
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / 通知</div>
+    <div class="card">
+      <div class="section-title">
+        <h3>通知</h3>
+        <span class="more" onclick="markAllRead()" style="cursor:pointer">全部标为已读</span>
+      </div>
+      ${state.notifications.length ? state.notifications.map(n => `
+        <div class="notif-item ${n.read ? "" : "unread"}">
+          <div class="dot" style="${n.read ? "background:transparent" : ""}"></div>
+          <div>
+            <div class="txt">${esc(n.text)}</div>
+            <div class="tm">${esc(n.time)}</div>
+          </div>
+        </div>
+      `).join("") : `<div class="empty">暂无通知。</div>`}
+    </div>
+  </div>`;
+}
+
+function renderProfilePage(){
+  if(!isLoggedIn()){
+    return `<div class="wrap"><div class="card empty">尚未登录。<button class="btn primary sm" style="margin-left:8px" onclick="openLogin()">去登录</button></div></div>`;
+  }
+  const myReplies = [];
+  Object.keys(state.userReplies).forEach(pid => {
+    const p = postById(pid);
+    (state.userReplies[pid] || []).forEach(r => {
+      myReplies.push({ post:p, reply:r });
+    });
+  });
+  const likedPosts = POSTS.filter(p => state.likes[p.id]);
+  const favPosts = POSTS.filter(p => state.favs[p.id]);
+  return `
+  <div class="wrap">
+    <div class="breadcrumb"><span onclick="go('home')">首页</span> / 个人中心</div>
+    <div class="card" style="margin-bottom:16px">
+      <div class="profile-head">
+        <img class="avatar" src="${esc(state.user.avatar)}" alt="" onerror="imgFallback(this,'avatar')">
+        <div>
+          <div style="font-size:16px;color:var(--white);font-weight:600">${esc(state.user.nickname)}</div>
+          <div style="color:var(--dim);font-size:12px;margin-top:2px">本地登录</div>
+          <div class="stat-row">
+            <span><b>${myReplies.length}</b> 我的回复</span>
+            <span><b>${likedPosts.length}</b> 点赞</span>
+            <span><b>${favPosts.length}</b> 收藏</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="section-title"><h3>我的回复</h3></div>
+      ${myReplies.length ? myReplies.map(x => `
+        <div class="post-row" onclick="openPost(${x.post.id})">
+          <div class="post-main">
+            <div class="post-title">${esc(x.post.title)}</div>
+            <div class="post-meta"><span>${esc(x.reply.content.slice(0,60))}${x.reply.content.length > 60 ? "…" : ""}</span></div>
+          </div>
+        </div>
+      `).join("") : `<div class="empty">还没有回复。</div>`}
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="section-title"><h3>我点赞的帖子</h3></div>
+      ${likedPosts.length ? renderPostList(likedPosts) : `<div class="empty">还没有点赞。</div>`}
+    </div>
+
+    <div class="card">
+      <div class="section-title"><h3>我收藏的帖子</h3></div>
+      ${favPosts.length ? renderPostList(favPosts) : `<div class="empty">还没有收藏。</div>`}
+    </div>
+  </div>`;
+}
+
+function renderLoginModal(){
+  if(!state.showLogin) return "";
+  return `
+  <div class="modal-mask" onclick="if(event.target===this) closeLogin()">
+    <div class="modal">
+      <h2>欢迎来到捉鬼师论坛</h2>
+      <p class="sub">请输入你的昵称和选择头像。</p>
+      
+      <div class="field">
+        <label>请输入你的昵称</label>
+        <input type="text" id="loginNickname" placeholder="例如：夜巡小队长" autocomplete="off">
+      </div>
+      
+      <div class="field">
+        <label>头像（可选）</label>
+        <input type="file" id="loginAvatar" accept="image/*">
+      </div>
+
+      <div class="form-error" style="color:#d9a0a0;font-size:12px;min-height:16px;margin-top:8px;">${esc(state.loginError)}</div>
+      
+      <div class="row">
+        <button class="btn primary" onclick="doCustomLogin()">进入论坛</button>
+        <button class="btn" onclick="closeLogin()">取消</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function render(){
+  let page = "";
+  switch(state.view){
+    case "home": page = renderHome(); break;
+    case "boards": page = renderBoards(); break;
+    case "board": page = renderBoardPage(state.param); break;
+    case "post": page = renderPostPage(state.param); break;
+    case "characters": page = renderCharactersPage(); break;
+    case "character": page = renderCharacterPage(state.param); break;
+    case "search": page = renderSearchPage(); break;
+    case "notifications": page = renderNotificationsPage(); break;
+    case "profile": page = renderProfilePage(); break;
+    case "events": page = renderBoardPage("events"); break;
+    case "practice": page = renderBoardPage("practice"); break;
+    case "notes": page = renderBoardPage("notes"); break;
+    case "lounge": page = renderBoardPage("lounge"); break;
+    default: page = renderHome();
+  }
+  document.getElementById("app").innerHTML = renderTopbar() + page + renderLoginModal();
+  renderFooter();
+}
+
+function renderFooter(){
+  document.getElementById("footer").innerHTML = `
+    <b>捉鬼师论坛</b> · 非官方同人演示论坛<br>
+    本页面为《捉鬼师后日谈》同人观赏演示，角色号为演示 NPC，不代表官方，不伪造官方公告。<br>
+    角色头像与帖子图片由使用者自行提供，请确认素材使用权。普通 NPC 使用统一灰阶默认头像。<br>
+    所有登录、点赞、收藏、回复数据仅保存在本地浏览器，清缓存会丢失。
+    <button class="reset" onclick="resetDemo()">重置演示数据</button>
+  `;
+}
+
+function go(view, param){
+  state.view = view;
+  state.param = param || null;
+  state.showLogin = false;
+  state.loginError = "";
+  state.replyDraft = "";
+  render();
+  window.scrollTo({ top:0, behavior:"smooth" });
+}
+function openPost(id){ go("post", id); }
+function openBoard(id){ go("board", id); }
+function openCharacter(id){ go("character", id); }
+
+function openLogin(){
+  state.showLogin = true;
+  state.loginError = "";
+  render();
+  setTimeout(() => {
+    const el = document.getElementById("loginNickname");
+    if(el) el.focus();
+  }, 30);
+}
+function closeLogin(){
+  state.showLogin = false;
+  state.loginError = "";
+  render();
+}
+
+function doCustomLogin(){
+  const nicknameInput = document.getElementById("loginNickname");
+  const avatarInput = document.getElementById("loginAvatar");
+  const nickname = (nicknameInput.value || "").trim();
+  
+  if(!nickname){
+    state.loginError = "请填写一个昵称。";
+    render();
+    return;
+  }
+
+  const file = avatarInput.files[0];
+  if(file){
+    if(file.size > 1024 * 1024 * 2) { 
+      state.loginError = "头像图片过大，请选择小于 2MB 的图片。";
+      render();
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      finishLogin(nickname, e.target.result);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    finishLogin(nickname, DEFAULT_NPC_AVATAR);
+  }
+}
+
+function finishLogin(nickname, avatarBase64){
+  state.user = { nickname, avatar: avatarBase64 };
+  persistUser();
+  state.showLogin = false;
+  state.loginError = "";
+  pushNotif("欢迎来到捉鬼师论坛，" + nickname);
+  render();
+}
+
+function logout(){
+  state.user = null;
+  persistUser();
+  go("home");
+}
+
+function toggleLike(id){
+  if(!isLoggedIn()){ openLogin(); return; }
+  if(state.likes[id]) delete state.likes[id];
+  else state.likes[id] = true;
+  persistLikes();
+  render();
+}
+
+function toggleFav(id){
+  if(!isLoggedIn()){ openLogin(); return; }
+  if(state.favs[id]) delete state.favs[id];
+  else state.favs[id] = true;
+  persistFavs();
+  render();
+}
+
+function toggleCollapse(key){
+  state.collapsed[key] = !state.collapsed[key];
+  render();
+}
+
+function submitReply(postId){
+  if(!isLoggedIn()){ openLogin(); return; }
+  const text = (state.replyDraft || "").trim();
+  if(!text){ alert("回复内容不能为空。"); return; }
+  if(!state.userReplies[postId]) state.userReplies[postId] = [];
+  state.userReplies[postId].push({
+    author: "user",
+    authorType: "user",
+    content: text,
+    likes: 0,
+    isUser: true
+  });
+  persistReplies();
+  state.replyDraft = "";
+  pushNotif("你的回复已发布。");
+  render();
+  setTimeout(() => {
+    const el = document.querySelector(".reply-box textarea");
+    if(el) el.value = "";
+  }, 10);
+}
+
+function pushNotif(text){
+  state.notifications.unshift({
+    id: Date.now(),
+    text,
+    time: "刚刚",
+    read: false
+  });
+  persistNotifs();
+}
+
+function markAllRead(){
+  state.notifications = state.notifications.map(n => ({ ...n, read:true }));
+  persistNotifs();
+  render();
+}
+
+function doSearch(){
+  state.searchKeyword = state.searchInput;
+  go("search");
+}
+function searchTag(tag){
+  state.searchInput = tag;
+  state.searchKeyword = tag;
+  go("search");
+}
+
+function resetDemo(){
+  if(!confirm("确定重置演示数据？会清除本地登录、点赞、收藏、回复和通知。")) return;
+  [LS.user, LS.likes, LS.favs, LS.replies, LS.notifs].forEach(k => localStorage.removeItem(k));
+  state.user = null;
+  state.likes = {};
+  state.favs = {};
+  state.userReplies = {};
+  state.collapsed = {};
+  state.notifications = [{ id:1, text:"欢迎来到捉鬼师论坛！", time:"刚刚", read:false }];
+  saveJSON(LS.notifs, state.notifications);
+  state.showLogin = true; // 重置后重新弹出登录框
+  go("home");
+}
+
+render();
+</script>
+</body>
+</html>
