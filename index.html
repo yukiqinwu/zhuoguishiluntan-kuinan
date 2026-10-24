@@ -269,7 +269,7 @@
     .floor .side-user{width:64px}
     .floor .side-user .avatar{width:36px; height:36px}
   }
-              </style></head>
+  </style></head>
 <body>
 <div id="app"></div>
 <div class="footer" id="footer"></div>
@@ -315,7 +315,6 @@ const BOARDS = [
 ];
 
 const POSTS = [
-  // 1. 双面鬼特殊帖
   {
     id:1, board:"characters", character:"luo", title:"鲜血艺术",
     author:"luo", authorType:"character", tags:["双面鬼","图片帖","演示"], time:"2026-10-19 01:12", likes:85, views:2500,
@@ -325,19 +324,19 @@ const POSTS = [
       { author:"luo", authorType:"character", content:"", image:"./luo-yunying-reply-image.png", likes:45 }
     ]
   },
-  // 2. 玄武官方通告
   {
     id:2, board:"events", character:"xuan", title:"【官方通报】旧城区三巷怨气异常，请各小队注意协防",
     author:"xuan", authorType:"character", tags:["玄武","官方通告","旧城区"], time:"2026-10-19 18:00", likes:99, views:3200,
-    content:"各位同修，今晚旧城区三巷出现异常怨气波动，初步判断有高阶厉鬼活动痕迹。\n请附近巡夜的小队注意安全，不要盲目追击。保持阵型，以驱逐和自保为主。如有突发情况，及时汇报。",
+    content:"经探查，原老粮站深处盘踞一只“血衣厉鬼”，怨气极重。计划明日凌晨 2 点进行联合绞杀。请附近巡夜的同修注意安全，保持阵型。若有异常，及时汇报。",
     replies:[
-      { author:"ye", authorType:"npc", content:"收到！夜巡二队已在附近待命。", likes:12 },
-      { author:"qin", authorType:"character", content:"玄武队长！我马上带人去支援！是不是我觉醒的机会到了！", likes:8 },
-      { author:"xuan", authorType:"character", content:"待在安全区。不要做多余的事，服从指挥。", likes:35 },
-      { author:"bai", authorType:"character", content:"收到，今晚直播间就守着三巷外围，绝不让兄弟们看热闹看出事。", likes:15 }
+      { author:"qin", authorType:"character", content:"收到！我今晚一定拼尽全力，绝对不让那厉鬼跑出去！随时准备支援！", likes:18 },
+      { author:"qing", authorType:"character", content:"大半夜抓鬼？我可不奉陪。你们自己慢慢玩吧，别指望我。", likes:25 },
+      { author:"xuan", authorType:"character", content:"随你。", likes:32 },
+      { author:"xuan", authorType:"character", content:"@秦大侠 保持冷静，听从主攻手安排，不要盲目冲锋。", likes:28 },
+      { author:"luo", authorType:"character", content:"知道了，我准时到。别拖后腿就行。", likes:40 },
+      { author:"hu", authorType:"character", content:"啊啊啊双面鬼大佬主攻！我能在外面给你们画个加油的符吗！", likes:9 }
     ]
   },
-  // 3. 玄武官方绞杀通告
   {
     id:3, board:"events", character:"xuan", title:"【行动部署】关于明日凌晨“血衣厉鬼”的联合绞杀行动",
     author:"xuan", authorType:"character", tags:["玄武","联合绞杀","官方"], time:"2026-10-19 20:00", likes:120, views:4500,
@@ -345,23 +344,21 @@ const POSTS = [
     replies:[
       { author:"qing", authorType:"character", content:"收到。东面出口交给我。", likes:22 },
       { author:"luo", authorType:"character", content:"知道了，我准时到。别拖后腿就行。", likes:40 },
-      { author:"qin", authorType:"character", content:"收到！我一定不辜负队长和大佬的期望！", likes:18 },
+      { author:"qin", authorType:"character", content:"燃起来了！终于能和双面鬼大佬并肩作战了！大家看好了，我今晚绝对要大显身手，把那些脏东西统统揍飞！", likes:18 },
       { author:"hu", authorType:"character", content:"啊啊啊双面鬼大佬主攻！我能在外面给你们画个加油的符吗！", likes:9 },
       { author:"fish", authorType:"npc", content:"大佬们加油！我明天在家等你们的好消息！", likes:7 }
     ]
   },
-  // 4. 秦大侠中二求助
   {
     id:4, board:"characters", character:"qin", title:"【求助】旧城区这墙是不是有怨气？@双面鬼 大佬救命！",
-    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","求助","中二"], time:"2026-10-19 00:20", likes:27, views:640,
-    content:"各位同修好！今晚在旧城区巡夜，符纸贴上去直接掉下来了！朱砂没问题，是不是这墙里封印了什么千年厉鬼？我是不是要觉醒体内的捉鬼血脉了？！@双面鬼 大佬求指路！！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","求助","热血"], time:"2026-10-19 00:20", likes:27, views:640,
+    content:"各位同修好！今晚在旧城区巡夜，符纸贴上去直接掉下来了！朱砂没问题，是不是这墙里封印了什么千年厉鬼？@双面鬼 大佬求指路！！",
     replies:[
       { author:"luo", authorType:"character", content:"觉醒你个头。旧城区那几条巷子湿气重，墙皮返潮，符纸贴上去不脱才怪。朱砂换干性的，贴之前把墙面烘一遍。真有问题，白天再来。", likes:22 },
       { author:"qing", authorType:"character", content:"烘个墙也能脑补出八十集连续剧，不去写小说可惜了。", likes:15 },
       { author:"qin", authorType:"character", content:"谢谢大佬指点！！我这就去烘墙！大佬骂我了，大佬心里有我！", likes:8 }
     ]
   },
-  // 5. 蛇玉追星
   {
     id:5, board:"characters", character:"hu", title:"只有我觉得双面鬼大佬毒舌的时候特别帅吗？",
     author:"hu", authorType:"character", tags:["蛇玉","双面鬼","彩虹屁"], time:"2026-10-18 23:10", likes:25, views:312,
@@ -372,29 +369,18 @@ const POSTS = [
       { author:"hong", authorType:"npc", content:"理智一点，人家大佬都嫌你烦了。", likes:18 }
     ]
   },
-  // 6. 白虎推销
   {
     id:6, board:"characters", character:"bai", title:"今晚夜巡老粮站，直播间兄弟们走一波！",
     author:"bai", authorType:"character", tags:["白虎","直播","求礼物"], time:"2026-10-18 19:00", likes:12, views:320,
     content:"家人们，今晚难度有点大。为了给大家直播抓个猛鬼，我先穿个护甲。有钱的捧个钱场，送个‘跑车’‘火箭’，没钱的点点关注。刷礼物的今晚我替他多贴两张符！",
     replies:[
       { author:"xuan", authorType:"character", content:"注意安全，别为了流量作死。论坛禁止引流乞讨，下不为例。", likes:25 },
-      { author:"qing", authorType:"character", content:"拿命换礼物，阎王爷看了都得给你点个赞。", likes:18 }
+      { author:"qing", authorType:"character", content:"拿命换礼物，阎王爷看了都得给你点个赞。", likes:18 },
+      { author:"hong", authorType:"npc", content:"水滴筹链接发一下，我给你捐五毛。", likes:10 }
     ]
   },
-  // 7. 玄武口诀
   {
-    id:7, board:"characters", character:"xuan", title:"整理了一份基础守阵口诀，新人必看",
-    author:"xuan", authorType:"character", tags:["玄武","守阵","口诀"], time:"2026-10-18 14:00", likes:55, views:1200,
-    content:"最近新人多，遇到怪事容易慌。这份口诀大家先背熟：遇事不要慌，先看符纸后看墙。风大压边雨带伞，别见黑影就喊娘。",
-    replies:[
-      { author:"ye", authorType:"npc", content:"受教了，队长稳重！", likes:5 },
-      { author:"qin", authorType:"character", content:"背熟了！我是不是可以出师了！", likes:3 }
-    ]
-  },
-  // 8. 青龙阴阳怪气
-  {
-    id:8, board:"characters", character:"qing", title:"某些人烘个墙也能脑补出一部连续剧",
+    id:7, board:"characters", character:"qing", title:"某些人烘个墙也能脑补出一部连续剧",
     author:"qing", authorType:"character", tags:["青龙","嘲讽"], time:"2026-10-18 11:00", likes:20, views:300,
     content:"建议遇到灵异事件先挂个脑科。脑子里的水倒干净了，符纸可能就贴上了。",
     replies:[
@@ -402,9 +388,8 @@ const POSTS = [
       { author:"qing", authorType:"character", content:"嫉妒你？嫉妒你脑干缺失吗？", likes:12 }
     ]
   },
-  // 9. 佟装水日常
   {
-    id:9, board:"characters", character:"tong", title:"新手第一次画符，手抖怎么办？",
+    id:8, board:"characters", character:"tong", title:"新手第一次画符，手抖怎么办？",
     author:"tong", authorType:"character", tags:["佟装水","画符","新人"], time:"2026-10-18 10:30", likes:15, views:290,
     content:"画到一半手抖，线条断了。师傅说断了就得重画。有没有稳手的办法？",
     replies:[
@@ -412,19 +397,17 @@ const POSTS = [
       { author:"xuan", authorType:"character", content:"慢慢来。断了就重画，别硬接。手稳是练出来的。", likes:13 }
     ]
   },
-  // 10. 秦大侠中二发作
   {
-    id:10, board:"characters", character:"qin", title:"关于我被大佬骂了这件事，我宣布这是无上的荣耀！",
-    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","中二","追星"], time:"2026-10-17 21:00", likes:19, views:450,
+    id:9, board:"characters", character:"qin", title:"关于我被大佬骂了这件事，我宣布这是无上的荣耀！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","追星"], time:"2026-10-17 21:00", likes:19, views:450,
     content:"你们懂什么！这叫强者的指点！大佬骂我，说明他关注我！我要把今天的对话打印下来贴在床头！",
     replies:[
       { author:"luo", authorType:"character", content:"滚。", likes:30 },
       { author:"hu", authorType:"character", content:"好羡慕你，大佬居然回了你这么多字！", likes:10 }
     ]
   },
-  // 11. 蛇玉同人图
   {
-    id:11, board:"characters", character:"hu", title:"【同人】偷偷画了一张双面鬼大佬的抓鬼速写",
+    id:10, board:"characters", character:"hu", title:"【同人】偷偷画了一张双面鬼大佬的抓鬼速写",
     author:"hu", authorType:"character", tags:["蛇玉","同人图","双面鬼"], time:"2026-10-17 19:20", likes:22, views:400,
     content:"画技不精，但真的尽力了！大佬穿风衣的样子太帅了，没画出来的部位大家自行脑补！",
     replies:[
@@ -432,18 +415,16 @@ const POSTS = [
       { author:"luo", authorType:"character", content:"把那张图删了。还有，你再偷拍我试试。", likes:22 }
     ]
   },
-  // 12. 白虎推销2
   {
-    id:12, board:"characters", character:"bai", title:"家人们，昨晚直播效果拉满！",
+    id:11, board:"characters", character:"bai", title:"家人们，昨晚直播效果拉满！",
     author:"bai", authorType:"character", tags:["白虎","直播"], time:"2026-10-17 15:00", likes:11, views:200,
     content:"虽然没抓到鬼，但家人们礼物没停过！今晚继续，刷个跑车我给大家表演一个胸口碎大石！",
     replies:[
       { author:"xuan", authorType:"character", content:"再多发一条广告，禁言套餐了解一下。", likes:28 }
     ]
   },
-  // 13. 双面鬼嫌烦
   {
-    id:13, board:"characters", character:"luo", title:"别什么破烂事都往我头上推",
+    id:12, board:"characters", character:"luo", title:"别什么破烂事都往我头上推",
     author:"luo", authorType:"character", tags:["双面鬼","吐槽"], time:"2026-10-16 22:10", likes:60, views:1500,
     content:"再有人发求助帖艾特我，先看看自己符有没有贴反。我不是你们的保姆。",
     replies:[
@@ -451,18 +432,16 @@ const POSTS = [
       { author:"hu", authorType:"character", content:"大佬连生气都这么有个性。", likes:14 }
     ]
   },
-  // 14. 青龙阴阳白虎
   {
-    id:14, board:"characters", character:"qing", title:"直播抓鬼？我看是鬼抓你",
+    id:13, board:"characters", character:"qing", title:"直播抓鬼？我看是鬼抓你",
     author:"qing", authorType:"character", tags:["青龙","白虎","嘲讽"], time:"2026-10-16 20:00", likes:22, views:310,
     content:"建议白虎改行做搞笑主播。抓鬼？你连墙角的耗子都抓不到，还指望抓鬼。",
     replies:[
       { author:"bai", authorType:"character", content:"你懂什么，这叫节目效果！", likes:4 }
     ]
   },
-  // 15. 玄武稳重回复属性问题
   {
-    id:15, board:"characters", character:"qin", title:"求助，属性到底怎么点啊！我是不是该全点力量？",
+    id:14, board:"characters", character:"qin", title:"求助，属性到底怎么点啊！我是不是该全点力量？",
     author:"qin", authorType:"character", tags:["捉鬼师秦大侠","属性","求助"], time:"2026-10-15 10:20", likes:15, views:500,
     content:"体感属性影响判定，好感度影响分支。我想做一个能一拳打爆厉鬼的猛男，有什么建议吗？",
     replies:[
@@ -470,18 +449,16 @@ const POSTS = [
       { author:"map", authorType:"npc", content:"队长说得对，我全点力量现在跑都跑不动。", likes:9 }
     ]
   },
-  // 16. 蛇玉语录
   {
-    id:16, board:"characters", character:"hu", title:"收集大佬语录第一百零一天",
+    id:15, board:"characters", character:"hu", title:"收集大佬语录第一百零一天",
     author:"hu", authorType:"character", tags:["蛇玉","语录"], time:"2026-10-14 19:00", likes:18, views:250,
     content:"“滚。”——双面鬼。短短一个字，包含了三分薄凉、三分讥笑和四分漫不经心！",
     replies:[
       { author:"qing", authorType:"character", content:"没救了，建议火化。", likes:20 }
     ]
   },
-  // 17. 朱雀小说推文 (新增)
   {
-    id:17, board:"characters", character:"zhu", title:"【推文】最近看的一本仙侠小说，里面的御剑术感觉可以改良成御符？",
+    id:16, board:"characters", character:"zhu", title:"【推文】最近看的一本仙侠小说，里面的御剑术感觉可以改良成御符？",
     author:"zhu", authorType:"character", tags:["朱雀","小说","仙侠","脑洞"], time:"2026-10-15 21:00", likes:35, views:600,
     content:"熬夜看完了一本修仙文，里面的阵法设定太有意思了。如果我们在守阵的时候加入一点五行八卦的变阵，是不是效果更好？有没有懂符文的同修探讨一下？",
     replies:[
@@ -490,41 +467,125 @@ const POSTS = [
       { author:"qing", authorType:"character", content:"少看点小说，多画几张符。别到时候厉鬼没抓到，自己先走火入魔了。", likes:15 }
     ]
   },
-  // 18. 朱雀修仙门派脑洞 (新增)
   {
-    id:18, board:"characters", character:"zhu", title:"【脑洞】如果捉鬼师也是按修仙门派划分的……",
-    author:"zhu", authorType:"character", tags:["朱雀","仙侠","吐槽"], time:"2026-10-13 22:30", likes:40, views:800,
-    content:"剑修（用桃木剑的）、符修（画符的）、体修（那个喜欢直播的）、阵法修……大家觉得我们属于哪个门派？",
+    id:17, board:"characters", character:"zhu", title:"完了，看小说看入迷了，差点把朱砂当墨水喝了",
+    author:"zhu", authorType:"character", tags:["朱雀","小说","日常"], time:"2026-10-13 22:30", likes:20, views:400,
+    content:"一边巡逻一边看小说，顺手拿起旁边的杯子就往嘴里灌。幸好闻到了味道不对，不然今晚大家就要去捞我了。",
     replies:[
-      { author:"bai", authorType:"character", content:"我肯定是体修！一拳一个厉鬼！", likes:8 },
-      { author:"qing", authorType:"character", content:"你们是修闲（修仙的谐音，指很闲）。", likes:25 },
-      { author:"luo", authorType:"character", content:"无聊的脑洞。", likes:18 },
-      { author:"hu", authorType:"character", content:"双面鬼大佬一定是高冷剑修！啊啊啊想想就好帅！", likes:14 },
-      { author:"qin", authorType:"character", content:"那我是要觉醒剑骨的天才剑修吗？！", likes:9 }
+      { author:"qing", authorType:"character", content:"蠢死算了，别说你是我们这队的。", likes:25 },
+      { author:"bai", authorType:"character", content:"哈哈哈，朱雀姐你这直播效果一定很好！", likes:8 }
     ]
   },
-  // 19. NPC发帖讨论官方
   {
-    id:19, board:"general", title:"今天在旧城区看到双面鬼大佬出手了，太帅了吧！",
-    author:"map", authorType:"npc", tags:["双面鬼","日常","偶遇"], time:"2026-10-19 19:00", likes:32, views:450,
-    content:"我本来在贴符，突然看到大佬从巷子里走出来。虽然没看清怎么出手的，但那股气场，我的符纸都震了一下！",
+    id:18, board:"characters", character:"qing", title:"某些人成天把热血挂在嘴边，我看是脑干缺失",
+    author:"qing", authorType:"character", tags:["青龙","嘲讽","秦大侠"], time:"2026-10-12 10:00", likes:15, views:300,
+    content:"烘个墙能脑补出一部连续剧，遇到厉鬼别吓得尿裤子就行。",
     replies:[
-      { author:"hu", authorType:"character", content:"啊啊啊好羡慕你！我为什么不在现场！", likes:12 },
-      { author:"ye", authorType:"npc", content:"别光顾着看，下次遇到大佬记得学着点。", likes:8 }
+      { author:"qin", authorType:"character", content:"我才不会尿裤子！我这就去练胆！", likes:6 },
+      { author:"qing", authorType:"character", content:"练胆？建议去鬼屋当NPC，还能赚点外快。", likes:20 }
     ]
   },
-  // --- NPC 日常帖 ---
   {
-    id:20, board:"general", title:"新人报到：第一次巡夜需要准备什么？",
+    id:19, board:"characters", character:"qing", title:"大佬今天没骂人，某些人是不是要放鞭炮了？",
+    author:"qing", authorType:"character", tags:["青龙","嘲讽","蛇玉"], time:"2026-10-11 15:20", likes:18, views:280,
+    content:"真搞不懂，一天到晚盯着别人看，自己没有生活吗？",
+    replies:[
+      { author:"hu", authorType:"character", content:"要你管！", likes:5 }
+    ]
+  },
+  {
+    id:20, board:"characters", character:"xuan", title:"关于昨晚旧城区怨气波动的复盘",
+    author:"xuan", authorType:"character", tags:["玄武","复盘","官方"], time:"2026-10-11 09:00", likes:40, views:800,
+    content:"行动全员无伤，说明平时的演练没有白费。但有几处配合仍显生疏，希望大家私下多磨合。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"收到，队长辛苦了。", likes:6 }
+    ]
+  },
+  {
+    id:21, board:"characters", character:"xuan", title:"【警告】严禁私自尝试未报备的危险阵法",
+    author:"xuan", authorType:"character", tags:["玄武","警告"], time:"2026-10-10 18:00", likes:35, views:600,
+    content:"近期发现有同修私自尝试古法阵法，极其危险。若引发失控，后果自负。",
+    replies:[
+      { author:"zhu", authorType:"character", content:"是不是看了我那本小说去试的？我都说了那是修仙脑洞啊！", likes:12 }
+    ]
+  },
+  {
+    id:22, board:"characters", character:"qin", title:"求助：最近体能训练总是跟不上，有没有什么实用的锻炼方法？",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","体能","求助"], time:"2026-10-10 10:00", likes:12, views:250,
+    content:"跟着跑了几圈就喘得不行，感觉拖了大家后腿。各位前辈有什么好建议吗？",
+    replies:[
+      { author:"qing", authorType:"character", content:"建议放弃，回家躺着比较适合你。", likes:15 },
+      { author:"xuan", authorType:"character", content:"循序渐进。每天加练半小时，不要急于求成。", likes:22 }
+    ]
+  },
+  {
+    id:23, board:"characters", character:"qin", title:"终于拿到新的桃木剑了！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","日常"], time:"2026-10-09 16:00", likes:18, views:320,
+    content:"虽然比不上大佬们的神兵利器，但我一定会好好练习，用它消灭更多的厉鬼！",
+    replies:[
+      { author:"luo", authorType:"character", content:"先把平砍练好再说。", likes:25 }
+    ]
+  },
+  {
+    id:24, board:"characters", character:"qin", title:"今天跟着前辈们跑了一圈，学到了很多！",
+    author:"qin", authorType:"character", tags:["捉鬼师秦大侠","日常"], time:"2026-10-08 22:00", likes:20, views:380,
+    content:"虽然很累，但是真的很充实。大家都很厉害，我也要加倍努力才行！",
+    replies:[
+      { author:"xuan", authorType:"character", content:"保持这份热情，慢慢积累。", likes:30 }
+    ]
+  },
+  {
+    id:25, board:"characters", character:"luo", title:"连五行相克都背不明白，建议早点转行",
+    author:"luo", authorType:"character", tags:["双面鬼","吐槽","基础"], time:"2026-10-08 14:00", likes:45, views:900,
+    content:"看着某些新人瞎贴符，真怕你们哪天把房子点了。",
+    replies:[
+      { author:"map", authorType:"npc", content:"对不起大佬，我这就去背书！", likes:10 }
+    ]
+  },
+  {
+    id:26, board:"characters", character:"luo", title:"今晚的脏东西，比你们水帖的速度还慢",
+    author:"luo", authorType:"character", tags:["双面鬼","夜巡"], time:"2026-10-07 02:00", likes:55, views:1100,
+    content:"（图片：一张极其压抑的旧城区夜景）",
+    replies:[
+      { author:"bai", authorType:"character", content:"大佬，我能在你旁边直播吗？", likes:2 },
+      { author:"luo", authorType:"character", content:"滚。", likes:30 }
+    ]
+  },
+  {
+    id:27, board:"characters", character:"luo", title:"戏多。",
+    author:"luo", authorType:"character", tags:["双面鬼","吐槽"], time:"2026-10-06 12:00", likes:30, views:500,
+    content:"某些人的戏能不能少一点，看着头疼。",
+    replies:[
+      { author:"qin", authorType:"character", content:"是不是在说我？！我改！", likes:8 }
+    ]
+  },
+  {
+    id:28, board:"characters", character:"tong", title:"大家画符用的朱砂，一般去哪里买比较靠谱？",
+    author:"tong", authorType:"character", tags:["佟装水","朱砂","求助"], time:"2026-10-05 10:00", likes:10, views:200,
+    content:"淘宝上的能用吗？还是必须去线下的老店买？",
+    replies:[
+      { author:"fu", authorType:"npc", content:"尽量去老店，网上的太容易掺假了。", likes:6 }
+    ]
+  },
+  {
+    id:29, board:"characters", character:"tong", title:"今天试了新的安神符画法，手还是有点抖",
+    author:"tong", authorType:"character", tags:["佟装水","画符","日常"], time:"2026-10-04 18:00", likes:8, views:150,
+    content:"虽然比昨天好多了，但还是不太行。大家一开始都是这样的吗？",
+    replies:[
+      { author:"xuan", authorType:"character", content:"都是这么过来的，坚持练就行了。", likes:15 }
+    ]
+  },
+  // --- 30-50 NPC 日常及吃瓜帖 ---
+  {
+    id:30, board:"general", title:"新人报到：第一次巡夜需要准备什么？",
     author:"map", authorType:"npc", tags:["新人","巡夜"], time:"2026-10-18 21:10", likes:16, views:322,
     content:"刚入行，今晚第一次跟队巡夜。除了符纸和朱砂，还需要带什么？手电算不算违规？在线等。",
     replies:[
-      { author:"ye", authorType:"npc", content:"手电可以，别用强光直照墙角。带一小包干糯米，湿气重的地方撒一点。", likes:8 },
-      { author:"xuan", authorType:"character", content:"跟紧队伍，听指挥。新人最忌讳单独行动。", likes:20 }
+      { author:"ye", authorType:"npc", content:"手电可以，别用强光直照墙角。带一小包干糯米，湿气重的地方撒一点。", likes:8 }
     ]
   },
   {
-    id:21, board:"general", title:"旧城区夜巡避坑记录（持续更新）",
+    id:31, board:"general", title:"旧城区夜巡避坑记录（持续更新）",
     author:"ye", authorType:"npc", tags:["旧城区","避坑","巡夜"], time:"2026-10-17 23:05", likes:21, views:410,
     content:"旧城区三巷、五巷、老粮站后墙，这三处湿气最重，符纸基本撑不过半刻。建议白天踩点，晚上结伴。",
     replies:[
@@ -532,7 +593,7 @@ const POSTS = [
     ]
   },
   {
-    id:22, board:"events", title:"笔仙事件复盘：同学聚会那晚到底发生了什么",
+    id:32, board:"events", title:"笔仙事件复盘：同学聚会那晚到底发生了什么",
     author:"du", authorType:"npc", tags:["笔仙","复盘","时间线"], time:"2026-10-19 02:00", likes:26, views:690,
     content:"按目前能确认的信息整理：聚会、笔仙、送不走、缠上。中间有几个时间点对不上，欢迎补充。",
     replies:[
@@ -540,16 +601,15 @@ const POSTS = [
     ]
   },
   {
-    id:23, board:"events", title:"半夜听到楼道有人念咒，要不要出去看？",
+    id:33, board:"events", title:"半夜听到楼道有人念咒，要不要出去看？",
     author:"bi", authorType:"npc", tags:["楼道","求助"], time:"2026-10-17 01:30", likes:10, views:255,
     content:"声音很清楚，但猫眼外面没人。念的内容听不清，像在数数。",
     replies:[
-      { author:"ye", authorType:"npc", content:"这种情况先别出去，记下来报队里。", likes:4 },
       { author:"xuan", authorType:"character", content:"若是听到念咒，屏息静气，用朱砂在门内画个封字。千万不要应声。", likes:30 }
     ]
   },
   {
-    id:24, board:"practice", title:"符纸贴法图解（新手向）",
+    id:34, board:"practice", title:"符纸贴法图解（新手向）",
     author:"fu", authorType:"npc", tags:["符纸","图解","新手"], time:"2026-10-18 15:00", likes:22, views:511,
     content:"朱砂面朝外，四角压实，中间留一点空。返潮墙面先烘。别用透明胶。",
     replies:[
@@ -557,16 +617,15 @@ const POSTS = [
     ]
   },
   {
-    id:25, board:"practice", title:"大地图探索怎么走不迷路",
+    id:35, board:"practice", title:"大地图探索怎么走不迷路",
     author:"map", authorType:"npc", tags:["大地图","探索"], time:"2026-10-16 20:00", likes:12, views:288,
     content:"我每次都在河堤那边绕圈。有没有固定走法？",
     replies:[
-      { author:"ye", authorType:"npc", content:"带粉笔，拐弯画一道。", likes:4 },
       { author:"qing", authorType:"character", content:"方位感差就带罗盘。死记硬背不如多走两遍。", likes:15 }
     ]
   },
   {
-    id:26, board:"notes", title:"手绘符样分享：镇宅、驱邪、安神",
+    id:36, board:"notes", title:"手绘符样分享：镇宅、驱邪、安神",
     author:"fu", authorType:"npc", tags:["符样","手绘","分享"], time:"2026-10-18 11:00", likes:24, views:455,
     content:"三张常用的，线条尽量画清楚。新手先临摹，别自己改。",
     replies:[
@@ -574,11 +633,108 @@ const POSTS = [
     ]
   },
   {
-    id:27, board:"lounge", title:"巡夜回来，鞋底全是泥，先摸会儿鱼",
+    id:37, board:"lounge", title:"巡夜回来，鞋底全是泥，先摸会儿鱼",
     author:"fish", authorType:"npc", tags:["摸鱼","巡夜"], time:"2026-10-19 03:10", likes:9, views:199,
     content:"旧城区那泥，洗了半小时。有没有同款。",
     replies:[
       { author:"ye", authorType:"npc", content:"雨靴+1，别穿好鞋去旧城区。", likes:5 }
+    ]
+  },
+  {
+    id:38, board:"general", title:"今天在旧城区看到双面鬼大佬出手了，太帅了吧！",
+    author:"map", authorType:"npc", tags:["双面鬼","日常","偶遇"], time:"2026-10-19 19:00", likes:32, views:450,
+    content:"我本来在贴符，突然看到大佬从巷子里走出来。虽然没看清怎么出手的，但那股气场，我的符纸都震了一下！",
+    replies:[
+      { author:"hu", authorType:"character", content:"啊啊啊好羡慕你！我为什么不在现场！", likes:12 }
+    ]
+  },
+  {
+    id:39, board:"general", title:"号外号外！玄武出手稳住了大局，那阵势太吓人了！",
+    author:"hong", authorType:"npc", tags:["玄武","吃瓜","震惊"], time:"2026-10-19 21:00", likes:28, views:400,
+    content:"今天旧城区那事，幸好玄武队长在，不然真不知道怎么收场。太靠谱了！",
+    replies:[
+      { author:"xuan", authorType:"character", content:"只是做了分内之事。", likes:20 }
+    ]
+  },
+  {
+    id:40, board:"general", title:"最近论坛里秦大侠和蛇玉的浓度太高了，谁来救救我",
+    author:"fish", authorType:"npc", tags:["吐槽","日常"], time:"2026-10-18 12:00", likes:15, views:280,
+    content:"一打开论坛全是这俩，一个疯狂追星，一个疯狂中二。没有别的瓜了吗？",
+    replies:[
+      { author:"qing", authorType:"character", content:"+1，建议把他们打包扔出去。", likes:18 }
+    ]
+  },
+  {
+    id:41, board:"general", title:"弱弱问一句，双面鬼大佬真的有传说中那么凶吗？",
+    author:"map", authorType:"npc", tags:["双面鬼","萌新提问"], time:"2026-10-17 10:00", likes:12, views:230,
+    content:"听说他骂人不带脏字，但能把人骂哭。",
+    replies:[
+      { author:"qin", authorType:"character", content:"大佬那是外冷内热！他骂我是爱我！", likes:10 },
+      { author:"luo", authorType:"character", content:"再说一句废话，你也滚。", likes:35 }
+    ]
+  },
+  {
+    id:42, board:"general", title:"今天在旧城区看到双面鬼大佬的背影了",
+    author:"du", authorType:"npc", tags:["双面鬼","偶遇"], time:"2026-10-16 22:00", likes:18, views:300,
+    content:"不敢上去搭话，气场太强了。",
+    replies:[
+      { author:"hu", authorType:"character", content:"你怎么不拍下来！那可是绝版背影！", likes:14 }
+    ]
+  },
+  {
+    id:43, board:"general", title:"有没有人觉得青龙大佬今天格外暴躁？",
+    author:"hong", authorType:"npc", tags:["青龙","吃瓜"], time:"2026-10-16 14:00", likes:22, views:350,
+    content:"他居然连玄武队长的面子都不给，太狂了。",
+    replies:[
+      { author:"qing", authorType:"character", content:"我只是嫌麻烦。", likes:25 }
+    ]
+  },
+  {
+    id:44, board:"general", title:"今晚老粮站的行动，有大佬开直播吗？想去围观",
+    author:"fish", authorType:"npc", tags:["吃瓜","直播"], time:"2026-10-19 10:00", likes:8, views:150,
+    content:"自己是不敢去的，但想看大佬们大显神威。",
+    replies:[
+      { author:"bai", authorType:"character", content:"关注我！今晚独家视角！", likes:5 }
+    ]
+  },
+  {
+    id:45, board:"lounge", title:"摸鱼，今天不想画符了",
+    author:"ye", authorType:"npc", tags:["摸鱼","日常"], time:"2026-10-15 15:00", likes:6, views:120,
+    content:"画符画得眼花，今天歇一天。",
+    replies:[
+      { author:"xuan", authorType:"character", content:"注意休息，劳逸结合。", likes:15 }
+    ]
+  },
+  {
+    id:46, board:"events", title:"旧城区的雾越来越大了，大家巡逻小心",
+    author:"ye", authorType:"npc", tags:["提醒","旧城区"], time:"2026-10-14 23:00", likes:19, views:280,
+    content:"能见度不到五米，千万别走散了。",
+    replies:[
+      { author:"qing", authorType:"character", content:"知道了。", likes:5 }
+    ]
+  },
+  {
+    id:47, board:"practice", title:"分享一个驱虫的小妙招，跟捉鬼没关系但很有用",
+    author:"fu", authorType:"npc", tags:["分享","日常"], time:"2026-10-13 10:00", likes:12, views:210,
+    content:"用剩下的朱砂画个圈，虫子真的不进来。",
+    replies:[
+      { author:"tong", authorType:"character", content:"这么神奇？我试试！", likes:3 }
+    ]
+  },
+  {
+    id:48, board:"characters", character:"tong", title:"有没有前辈能带我跑一次旧城区？",
+    author:"tong", authorType:"character", tags:["佟装水","求助"], time:"2026-10-12 16:00", likes:11, views:200,
+    content:"我一个人不太敢去，想跟着学习一下。",
+    replies:[
+      { author:"ye", authorType:"npc", content:"今晚我带队，你可以跟在我后面。", likes:8 }
+    ]
+  },
+  {
+    id:49, board:"lounge", title:"大家都在说大佬，我来发点不一样的",
+    author:"bi", authorType:"npc", tags:["水区","日常"], time:"2026-10-11 12:00", likes:5, views:90,
+    content:"今天天气不错。",
+    replies:[
+      { author:"qing", authorType:"character", content:"水得真有水平。", likes:10 }
     ]
   }
 ];
@@ -667,14 +823,14 @@ window.imgFallback = function(el, type){
 function avatarHTML(p, cls){
   const c = cls || "avatar";
   if(p.type === "character" || p.type === "user"){
-    return `<img class="${c}" src="${esc(p.avatar)}" alt="${esc(p.name)}" onerror="imgFallback(this,'avatar')">`;
+    return `<img class="${c}" src="${esc(p.avatar)}" alt="${esc(p.name)}" loading="lazy" decoding="async" onerror="imgFallback(this,'avatar')">`;
   }
   return `<img class="${c}" src="${DEFAULT_NPC_AVATAR}" alt="${esc(p.name)}">`;
 }
 
 function postImageHTML(src){
   return `<div class="post-image">
-    <img src="${esc(src)}" alt="帖子配图" onerror="imgFallback(this,'post')">
+    <img src="${esc(src)}" alt="帖子配图" loading="lazy" decoding="async" onerror="imgFallback(this,'post')">
     <span class="img-note">图片占位：${esc(src)}</span>
   </div>`;
 }
@@ -761,13 +917,12 @@ function renderPostList(list){
 }
 
 function renderHome(){
-  // 热门帖列表：鲜血艺术、玄武绞杀、朱雀修仙、秦大侠求助、白虎推销
   const hot = [
     POSTS.find(p => p.id === 1),
+    POSTS.find(p => p.id === 2),
     POSTS.find(p => p.id === 3),
-    POSTS.find(p => p.id === 17), 
-    POSTS.find(p => p.id === 4),
-    POSTS.find(p => p.id === 6)
+    POSTS.find(p => p.id === 6),
+    POSTS.find(p => p.id === 16)
   ].filter(Boolean);
 
   const latest = [...POSTS].sort((a,b) => b.id - a.id).slice(0,5);
